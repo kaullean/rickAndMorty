@@ -37,6 +37,7 @@ nav{
   border-radius: 10px !important;
   width: 18rem !important;
 }
+
 .card-body{
   font-family: 'Josefin Sans', sans-serif !important;
 }
@@ -57,13 +58,45 @@ nav{
 }
 #main{
   background-image: url(../assets/bgImage);
-
+  min-height: 100vh;
 }
 .cardLocation{
-  
+
   z-index: 0;
   position: absolute;
   background-size:cover;
   background-image: url("../assets/bg-location.jpg");
   background-position: center
+}
+.cardEpisode{
+  background-color: #0a243c67 !important;
+  box-shadow: 5px 5px 25px 5px #6e6f7c !important;
+
+}
+.scroll {
+  max-height: 200px; /* Ajusta la altura máxima según tus necesidades */
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  filter: opacity(1);
+  z-index: 0;
+}
+.scroll::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: #0a243c  ;        /* color of the tracking area */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 1px solid white;  /* creates padding around scroll thumb */
+
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #1a847c;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 1px solid white;  /* creates padding around scroll thumb */
 }

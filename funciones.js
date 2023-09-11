@@ -1,35 +1,40 @@
 function getIconStatusUrl(status){
     var iconStatus;
-    if(status == "Alive"){
-        iconStatus="https://img.icons8.com/emoji/48/green-circle-emoji.png"
-    }
-    if(status == "Dead"){
-        iconStatus="https://img.icons8.com/emoji/48/red-circle-emoji.png"
-    }
-    if(status == "unknown"){
-        iconStatus="https://img.icons8.com/fluency-systems-filled/96/FFFFFF/question-mark.png"
+    switch(status){
+        case "Alive":
+            iconStatus="https://img.icons8.com/emoji/48/green-circle-emoji.png"
+            break;
+        case "Dead":
+            iconStatus="https://img.icons8.com/emoji/48/red-circle-emoji.png"
+            break;
+        case "unknown":
+            iconStatus="https://img.icons8.com/fluency-systems-filled/96/FFFFFF/question-mark.png"
+            break;
     }
     return iconStatus
 }
 function getIconGenderUrl(gender){
     var iconGenero;
-    if(gender == "Male"){
-        iconGenero= "https://img.icons8.com/fluency-systems-filled/96/FFFFFF/male.png"
+    switch(gender){
+        case "Male":
+            iconGenero= "https://img.icons8.com/fluency-systems-filled/96/FFFFFF/male.png"
+            break;
+        case "Female":
+            iconGenero="https://img.icons8.com/fluency-systems-filled/96/FFFFFF/female.png"
+            break;
+        case "Genderless":
+            iconGenero="https://img.icons8.com/fluency-systems-filled/96/FFFFFF/neuter.png"
+            break;
+        case "unknown":
+            iconGenero="https://img.icons8.com/fluency-systems-filled/96/FFFFFF/question-mark.png"
+            break;
     }
-    if(gender == "Female"){
-        iconGenero="https://img.icons8.com/fluency-systems-filled/96/FFFFFF/female.png"
-    }
-    if(gender == "Genderless"){
-        iconGenero="https://img.icons8.com/fluency-systems-filled/96/FFFFFF/neuter.png" 
-    }
-    if(gender == "unknown"){
-        iconGenero="https://img.icons8.com/fluency-systems-filled/96/FFFFFF/question-mark.png" 
-    }  
+
     return iconGenero;
 }
 function crearCardPersonaje(character){
     var card = document.createElement('div');
-    card.className="card cardPersonaje m-3"
+    card.className="card cardPersonaje  m-3"
     card.style="width: 18rem"
     card.innerHTML=`
             <img src="${character.image}" class="card-img-top" alt="...">
@@ -77,35 +82,31 @@ function crearCardLocation(location){
         </div>
         <div class="d-flex flex-column mt-2">
           <span>Habitantes:  ${location.residents.length} </span>
-          <button onClick=mostrarHabitantes(${location.id}) type="button" class="btn btn-warning verHabitantes">Ver habitantes</button>
+          <button onClick=mostrarHabitantes(${location.id},'location') type="button" class="btn btn-warning verHabitantes" id="verHabitantes${location.id}">Ver habitantes</button>
         </div>
-        <div id="contenedorHabitantes${location.id}" class="d-flex flex-wrap"></div>
+        <div id="contenedorHabitantes${location.id}" class="d-flex flex-wrap scroll"></div>
       </div>`;
+    document.getElementById('main').appendChild(card);
+}
+function crearCardEpisode(episode){
+    var card = document.createElement('div');
+    card.className="card cardEpisode m-3"
+    card.style="width: 18rem"
+    card.innerHTML=`     
+        <div class=" d-flex flex-column text-light p-0 ">
+            <img src="/assets/morty2.jpg" class="card-img-top" alt="..." />
+            <div class="card-body p-2 d-flex flex-column text-center">
+                <h5 class="card-title">${episode.name}</h5>
+                <p class="date">${episode.air_date}</p>
+                <p class="card-text">${episode.episode}</p>
+                <p class="card-text">Personajes: ${episode.characters.length}</p>
+                <button  onClick=mostrarHabitantes(${episode.id},'episode') type="button" class="btn btn-warning verHabitantes" id="verHabitantes${episode.id}">Ver Participantes</button>
+            </div>
+            <div id="contenedorHabitantes${episode.id}" class="d-flex flex-wrap scroll"></div>
+        </div>`;
     document.getElementById('main').appendChild(card);
 }
 function borrarMain(){
     document.getElementById('main').innerHTML="";
 }
-function cargarHome(){
-    borrarMain();
-    mostrarPersonajes();
-}
-function cargarLocation(){
-    borrarMain();
-    mostrarLocations();
-}
 
-function cargarHabitantes(habitante,idPlaneta){
-
-    fetch(habitante)
-    .then(response => response.json())
-    .then(data => {
-        var habitantes = document.createElement('div');
-        var contenedor = "contenedorHabitantes"+idPlaneta 
-        habitantes.className="habitantes"
-        habitantes.innerHTML=`     
-        <img class="rounded-circle shadow-4-strong width="60rem" height="60rem" title="${data.name}" src="${data.image}" />
-        `;
-        document.getElementById(contenedor).appendChild(habitantes);
-    });    
-}
