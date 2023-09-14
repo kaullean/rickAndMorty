@@ -1,3 +1,4 @@
+var personajes=[];
 function getIconStatusUrl(status){
     var iconStatus;
     switch(status){
@@ -29,12 +30,21 @@ function getIconGenderUrl(gender){
             iconGenero="https://img.icons8.com/fluency-systems-filled/96/FFFFFF/question-mark.png"
             break;
     }
-
     return iconGenero;
 }
+
+
+//Funciones con manejo de Doom
+
+function borrarMain(){
+    document.getElementById('main').innerHTML="";
+}
 function crearCardPersonaje(character){
+    var personajeAgregado=false;
     var card = document.createElement('div');
     card.className="card cardPersonaje  m-3"
+    card.id="char"+character.id
+    card.onclick = () => agregarCharacter(character);
     card.style="width: 18rem"
     card.innerHTML=`
             <img src="${character.image}" class="card-img-top" alt="...">
@@ -82,7 +92,7 @@ function crearCardLocation(location){
         </div>
         <div class="d-flex flex-column mt-2">
           <span>Habitantes:  ${location.residents.length} </span>
-          <button onClick=mostrarHabitantes(${location.id},'location') type="button" class="btn btn-warning verHabitantes" id="verHabitantes${location.id}">Ver habitantes</button>
+          <button onClick=renderHabitantes(${location.id},'location') type="button" class="btn btn-warning verHabitantes" id="verHabitantes${location.id}">Ver habitantes</button>
         </div>
         <div id="contenedorHabitantes${location.id}" class="d-flex flex-wrap scroll"></div>
       </div>`;
@@ -100,13 +110,75 @@ function crearCardEpisode(episode){
                 <p class="date">${episode.air_date}</p>
                 <p class="card-text">${episode.episode}</p>
                 <p class="card-text">Personajes: ${episode.characters.length}</p>
-                <button  onClick=mostrarHabitantes(${episode.id},'episode') type="button" class="btn btn-warning verHabitantes" id="verHabitantes${episode.id}">Ver Participantes</button>
+                <button onClick=renderHabitantes(${episode.id},'episode') type="button" class="btn btn-warning verHabitantes" id="verHabitantes${episode.id}">Ver Participantes</button>
             </div>
             <div id="contenedorHabitantes${episode.id}" class="d-flex flex-wrap scroll"></div>
         </div>`;
     document.getElementById('main').appendChild(card);
 }
-function borrarMain(){
-    document.getElementById('main').innerHTML="";
+function crearImgHabitante(habitante, id, section) {
+
+    fetch(habitante)
+      .then((response) => response.json())
+      .then((data) => {
+        var habitantes = document.createElement("div");
+        var contenedor = "contenedorHabitantes" + id;
+        habitantes.className = "habitantes";
+        habitantes.innerHTML = `     
+        <img class="rounded-circle shadow-4-strong width="60rem" height="60rem" title="${data.name}" src="${data.image}" />
+        `;
+        document.getElementById(contenedor).appendChild(habitantes);
+        var clasNam = "verHabitantes" + id;
+        var boton = document.getElementById(clasNam);
+        boton.onclick = () => ocultarImgHabitantes(id, section);
+        console.log("render habitante");
+
+      });
+}
+function ocultarImgHabitantes(idPlaneta, section) {
+    var idElemento = "contenedorHabitantes" + idPlaneta;
+    var elemento = document.getElementById(idElemento);
+    elemento.innerHTML = "";
+    var clasNam = "verHabitantes" + idPlaneta;
+    var boton = document.getElementById(clasNam);
+    boton.onclick = () => renderHabitantes(idPlaneta, section);
+}
+
+function agregarCharacter(character){
+    var flag=false;
+    var card = document.getElementById(`char${character.id}`);
+    card.onclick = () => eliminarCharacter(character);
+    if(personajes.length<3){
+        personajes.forEach((dato) => {
+            if(dato.id == character.id){
+                flag=true;
+            }
+          });
+        if(!flag){
+            personajes.push(character)
+        }
+    }
+    else{
+        borrarMain();
+    }
+    
+
+}
+function eliminarCharacter(character){
+    var flag=false;
+    var card = document.getElementById(`char${character.id}`);
+    card.onclick = () => agregarCharacter(character);
+    for(var i =0;i<personajes.length;i++){
+        if(personajes[i].id == character.id){
+            console.log("encontrado");
+
+            personajes.splice(i, 1);
+            console.log(personajes);
+            flag=true;
+        }
+    }  
+}
+function compararCharacter(characters){
+
 }
 
