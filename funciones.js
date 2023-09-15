@@ -44,7 +44,7 @@ function crearCardPersonaje(character){
     var card = document.createElement('div');
     card.className="card cardPersonaje  m-3"
     card.id="char"+character.id
-    card.onclick = () => agregarCharacter(character);
+    
     card.style="width: 18rem"
     card.innerHTML=`
             <img src="${character.image}" class="card-img-top" alt="...">
@@ -71,6 +71,7 @@ function crearCardPersonaje(character){
             </div>
             </div>
         `;
+    cargarOnClick(card,character);
     document.getElementById('main').appendChild(card);
 }
 function crearCardLocation(location){
@@ -116,6 +117,55 @@ function crearCardEpisode(episode){
         </div>`;
     document.getElementById('main').appendChild(card);
 }
+function comprarEpisodes(episodesA,episodesB){
+    var count=0;
+        for(i=0;i<episodesA.length;i++){
+            for(j=0;j<episodesB.length;j++){
+                if(episodesA[i]==episodesB[j]){
+                    count++
+                }
+            }
+        }
+    return count;
+}
+function crearCardCompare(){
+    if(personajes.length==2){
+        borrarMain();
+        var AB=comprarEpisodes(personajes[0].episode,personajes[1].episode);
+        for(i=0;i<personajes.length;i++){
+            console.log("asd");
+            var card = document.createElement('div');
+            card.className="card cardPersonaje  m-3"
+            card.id="char"+personajes[i].id
+            
+            card.style="width: 18rem"
+            card.innerHTML=`
+                    <img src="${personajes[i].image}" class="card-img-top" alt="...">
+                    <div class="card-body d-flex flex-column text-light justify-content-around">
+                    <h2 class="text-center m-0">${personajes[i].name} </h2>
+                    <div class="cardInfo_Status d-flex flex-column text-center">
+                        <span style="padding-right: 1rem;">
+                        <img width="20vw" height="20vh" src="${getIconStatusUrl(personajes.status)}"/>
+                        ${personajes[i].status.toUpperCase()} - ${personajes[i].species.toUpperCase()} 
+                        
+                        </span>
+                        <span>
+                        <img width="20vw" height="20vh" src="${getIconGenderUrl(personajes[i].gender)}" alt="${personajes[i].gender}"/>
+                        ${personajes[i].gender.toUpperCase()}
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column mt-2">
+                        <span>Episodios que coincide con ${personajes[1].name} : ${AB}</span>
+                        
+                    </div>
+                    </div>
+                `;
+            document.getElementById('main').appendChild(card);
+                
+        }
+    }
+   // var AC=comprarEpisodes(personajes[0].episode,personajes[2].episode);   
+}
 function crearImgHabitante(habitante, id, section) {
 
     fetch(habitante)
@@ -131,8 +181,6 @@ function crearImgHabitante(habitante, id, section) {
         var clasNam = "verHabitantes" + id;
         var boton = document.getElementById(clasNam);
         boton.onclick = () => ocultarImgHabitantes(id, section);
-        console.log("render habitante");
-
       });
 }
 function ocultarImgHabitantes(idPlaneta, section) {
@@ -143,42 +191,59 @@ function ocultarImgHabitantes(idPlaneta, section) {
     var boton = document.getElementById(clasNam);
     boton.onclick = () => renderHabitantes(idPlaneta, section);
 }
-
-function agregarCharacter(character){
-    var flag=false;
-    var card = document.getElementById(`char${character.id}`);
-    card.onclick = () => eliminarCharacter(character);
-    if(personajes.length<3){
-        personajes.forEach((dato) => {
-            if(dato.id == character.id){
-                flag=true;
-            }
-          });
-        if(!flag){
-            personajes.push(character)
-        }
+function cargarOnClick(card,character){
+    var personajeEncontrado=false;
+    for(i=0;i<personajes.length;i++){
+        if(character.id==personajes[i].id){
+            card.style= "box-shadow: 5px 5px 25px 5px red !important";
+            card.onclick = () => eliminarCharacter(character);
+            personajeEncontrado=true;
+        }       
     }
-    else{
-        borrarMain();
+    if(!personajeEncontrado){
+        card.onclick = () => agregarCharacter(character);
     }
     
+}
+function agregarCharacter(character){
+    if(personajes.length<3){
+        personajes.push(character)
+        var card = document.getElementById(`char${character.id}`);
+        card.onclick = () => eliminarCharacter(character);
+        card.style= "box-shadow: 5px 5px 25px 5px red !important";
+        actualizarCompareGadget(character)
+    }else{
+        console.log("No se puede agregar mas personajes");
+    }
 
 }
 function eliminarCharacter(character){
-    var flag=false;
-    var card = document.getElementById(`char${character.id}`);
-    card.onclick = () => agregarCharacter(character);
-    for(var i =0;i<personajes.length;i++){
-        if(personajes[i].id == character.id){
-            console.log("encontrado");
-
-            personajes.splice(i, 1);
-            console.log(personajes);
-            flag=true;
+    for(i=0;i<personajes.length;i++){
+        if(character.id==personajes[i].id){
+            personajes.splice(i,1)
         }
-    }  
-}
-function compararCharacter(characters){
+    }
+    var card = document.getElementById(`char${character.id}`);
+    card.style= "";
+    card.onclick = () => agregarCharacter(character);
+    actualizarCompareGadget();
 
 }
-
+function actualizarCompareGadget(){
+    var compareGadget = document.getElementById('compareGadget');
+    var ids=[];
+    compareGadget.innerHTML=""
+    for(i=0;i<personajes.length;i++){
+        ids.push(personajes[i].id.toString());
+        var img = document.createElement("div");
+        img.className = "habitantes";
+        img.innerHTML = `     
+            <img class="rounded-circle shadow-4-strong width="60rem" height="60rem" title="${personajes[i].name}" src="${personajes[i].image}" />
+            `;
+        compareGadget.appendChild(img)
+    }
+    compareGadget.onclick = () => crearCardCompare();
+}
+function renderCompare(){
+    
+}

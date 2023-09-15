@@ -1,41 +1,56 @@
 var sec;
-
-function renderSection(page, section,query) {
-
-  if (!page) {
-    page = 1;
+const pedirDataAsync = async (url) =>{
+  var response = await fetch(url);
+  var dataJson = await response.json();
+  return dataJson;
+}
+const logData = async ()=>{
+  let data = await pedirDataAsync('https://rickandmortyapi.com/api/character');
+} 
+function darFormatoUrl(page,id,section,querys){
+  if(id){
+    return `https://rickandmortyapi.com/api/${section}/${id} `
   }
+}
+
+function renderSection(page, section,query,ids) {
+  sec=section;
   if (!section) {
     section = "character";
   }
   if(!query){
     query=""
   }
-  sec=section;
+  if(!page){
+     page=1; 
+  }
   url = `https://rickandmortyapi.com/api/${section}?page=${page}${query}`;
+
+  
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
       borrarMain();
-
       switch (section) {
         case "character":
           data.results.forEach((dato) => {
             crearCardPersonaje(dato);
           });
+          cargarPaginacion(page, data.info.pages, section,query);
           break;
         case "location":
           data.results.forEach((dato) => {
             crearCardLocation(dato);
           });
+          cargarPaginacion(page, data.info.pages, section,query);
           break;
         case "episode":
           data.results.forEach((dato) => {
             crearCardEpisode(dato);
           });
+          cargarPaginacion(page, data.info.pages, section,query);
           break;
       }
-      cargarPaginacion(page, data.info.pages, section,query);
     });
 }
 function renderHabitantes(id, section) {
