@@ -1,17 +1,4 @@
 var sec;
-const pedirDataAsync = async (url) =>{
-  var response = await fetch(url);
-  var dataJson = await response.json();
-  return dataJson;
-}
-const logData = async ()=>{
-  let data = await pedirDataAsync('https://rickandmortyapi.com/api/character');
-} 
-function darFormatoUrl(page,id,section,querys){
-  if(id){
-    return `https://rickandmortyapi.com/api/${section}/${id} `
-  }
-}
 
 function renderSection(page, section,query,ids) {
   sec=section;
