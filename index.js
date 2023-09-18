@@ -1,5 +1,7 @@
 var sec;
-
+function borrarMain(){
+  document.getElementById('main').innerHTML="";
+}
 function renderSection(page, section,query,ids) {
   sec=section;
   if (!section) {
@@ -61,7 +63,31 @@ function renderHabitantes(id, section) {
       }
     });
 }
+function crearImgHabitante(habitante, id, section) {
 
+  fetch(habitante)
+    .then((response) => response.json())
+    .then((data) => {
+      var habitantes = document.createElement("div");
+      var contenedor = "contenedorHabitantes" + id;
+      habitantes.className = "habitantes";
+      habitantes.innerHTML = `     
+      <img class="rounded-circle shadow-4-strong width="60rem" height="60rem" title="${data.name}" src="${data.image}" />
+      `;
+      document.getElementById(contenedor).appendChild(habitantes);
+      var clasNam = "verHabitantes" + id;
+      var boton = document.getElementById(clasNam);
+      boton.onclick = () => ocultarImgHabitantes(id, section);
+    });
+}
+function ocultarImgHabitantes(idPlaneta, section) {
+  var idElemento = "contenedorHabitantes" + idPlaneta;
+  var elemento = document.getElementById(idElemento);
+  elemento.innerHTML = "";
+  var clasNam = "verHabitantes" + idPlaneta;
+  var boton = document.getElementById(clasNam);
+  boton.onclick = () => renderHabitantes(idPlaneta, section);
+}
 function cargarPaginacion(paginaActual, paginasTotales, section,query) {
   var pager = document.getElementById("pager");
   var pagerLength=5; //cantidad de paginas que muestra el paginador
