@@ -10,7 +10,19 @@
 
   </head>
   <body>
-    <div class="d-flex flex-column align-items-center">
+    <div class="contenedorBanner" id="contenedorHome">
+      <img class="logo" src="./assets/logo.png" alt="" />
+      <img class="foto1" src="./assets/foto1.png" alt="" />
+
+      <div class="contBotones">
+        <a class="boton" href="#" onclick="reRenderSection(1,'character')">Characters</a>
+
+        <a class="boton2" href="#" onclick="reRenderSection(1,'location')"> Location</a>
+
+        <a class="boton3" href="#" onclick="reRenderSection(1,'episode')"> Episode</a>
+      </div>
+    </div>
+    <div class="d-flex flex-column align-items-center" id="navContainer" style="display: none !important;">
       <nav class="navbar navbar-expand-lg">
         <div class="container-fluid d-flex px-lg-5">
 
@@ -26,16 +38,13 @@
           <div class="collapse navbar-collapse text-center col-" id="navbar-links">
             <ul class="navbar-nav justify-content-evenly col-lg-9">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" onclick="renderSection(1,'character')" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" onclick="renderSection(1,'character')" href="#" id="home">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Character</a>
+                <a class="nav-link active" onclick="renderSection(1,'location')" aria-current="page" href="#" id="location">Location</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" onclick="renderSection(1,'location')" aria-current="page" href="#">Location</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" onclick="renderSection(1,'episode')" href="#">Episode</a>
+                <a class="nav-link active" aria-current="page" onclick="renderSection(1,'episode')" href="#"  id="episode">Episode</a>
               </li>
             </ul>
             <div class="d-flex rounded col-lg-3 ">
@@ -55,19 +64,21 @@
 
       </div>
     </div>
-
-
-    <div class="d-flex flex-wrap justify-content-evenly" id="main">
+    <div class="d-flex flex-wrap justify-content-evenly" id="main" style="display: none !important;">
       
 
     </div>
- 
+
     <script src="compare.js"></script>
     <script src="locations.js"></script>
     <script src="characters.js"></script>
     <script src="episodes.js"></script>
     <script src="index.js"></script>
-
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"
+    ></script>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/fb0c2b6c01.js" crossorigin="anonymous"></script>

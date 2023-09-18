@@ -3,8 +3,7 @@ function compararPersonajesSeleccionados(){
     var aux=[];
     for(var i=0;i<personajes.length;i++){
         for(var j=0;j<personajes.length;j++){
-            console.log(`cuando i es: ${i} y j es: ${j} da: ${personajes[i].id!=personajes[j].id}`)
-            if(personajes[i].id!=personajes[j].id){
+                if(personajes[i].id!=personajes[j].id){
                 aux.push(`Comparte con ${personajes[j].name} : ${episodiosIguales(personajes[i].episode,personajes[j].episode)} episodios`);
             }     
         } 
@@ -26,6 +25,8 @@ function episodiosIguales(episodesA,episodesB){
     return count;
 }
 function crearCardCompare(){
+    var pager = document.getElementById("pager");
+    pager.innerHTML=""
     compararPersonajesSeleccionados();
     borrarMain();
         for(var i=0;i<personajes.length;i++){
@@ -40,7 +41,7 @@ function crearCardCompare(){
                         <h2 class="text-center m-0">${personajes[i].name} </h2>
                         <div class="cardInfo_Status d-flex flex-column text-center">
                             <span style="padding-right: 1rem;">
-                            <img width="20vw" height="20vh" src="${getIconStatusUrl(personajes.status)}"/>
+                            <img width="20vw" height="20vh" src="${getIconStatusUrl(personajes[i].status)}"/>
                             ${personajes[i].status.toUpperCase()} - ${personajes[i].species.toUpperCase()} 
                             
                             </span>
@@ -54,7 +55,6 @@ function crearCardCompare(){
                         </div>
                     </div>
                 `;
-                console.log(card.childNodes);
 
             var compContainer = document.createElement('div');
             compContainer.className="d-flex flex-column mt-2"
@@ -64,12 +64,9 @@ function crearCardCompare(){
                 span.innerHTML=comparacion;
                 compContainer.appendChild(span);
             });
-            card.appendChild(compContainer);
-            document.getElementById('main').appendChild(card);
-                
+            card.childNodes[3].childNodes[5].appendChild(compContainer);//accede al nodo donde se muestran las comparaciones
+            document.getElementById('main').appendChild(card);               
         }
-    
-   // var AC=comprarEpisodes(personajes[0].episode,personajes[2].episode);   
 }
 function agregarCharacter(character){
     if(personajes.length<3){
@@ -98,10 +95,8 @@ function eliminarCharacter(character){
 }
 function actualizarCompareGadget(){
     var compareGadget = document.getElementById('compareGadget');
-    var ids=[];
     compareGadget.innerHTML=""
     for(var i=0;i<personajes.length;i++){
-        ids.push(personajes[i].id.toString());
         var img = document.createElement("div");
         img.className = "habitantes";
         img.innerHTML = `     

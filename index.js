@@ -2,7 +2,39 @@ var sec;
 function borrarMain(){
   document.getElementById('main').innerHTML="";
 }
+function seleccionadoNav(selected){
+  var navHome = document.getElementById('home');
+  var navLocation = document.getElementById('location');
+  var navEpisodes = document.getElementById('episode');
+  if(selected=='home' || selected=='character'){
+    navHome.style=  "text-shadow: 0 0 50px #000, 0 0 10px #fff, 0 0 15px #b4dc2c, 0 0 20px #b4dc2c, 0 0 25px #b4dc2c, 0 0 60px #b4dc2c, 0 0 35px #b4dc2c;"
+    navLocation.style="";
+    navEpisodes.style="";
+  }
+  if(selected=='location'){
+    navHome.style= ""
+    navLocation.style= "text-shadow: 0 0 50px #000, 0 0 10px #fff, 0 0 15px #b4dc2c, 0 0 20px #b4dc2c, 0 0 25px #b4dc2c, 0 0 60px #b4dc2c, 0 0 35px #b4dc2c;"
+    navEpisodes.style="";
+  }
+  if(selected=='episode'){
+    navHome.style=""
+    navLocation.style="";
+    navEpisodes.style="text-shadow: 0 0 50px #000, 0 0 10px #fff, 0 0 15px #b4dc2c, 0 0 20px #b4dc2c, 0 0 25px #b4dc2c, 0 0 60px #b4dc2c, 0 0 35px #b4dc2c;"
+  }
+}
+function reRenderSection(page, section,query,ids){
+  var home = document.getElementById('contenedorHome')
+  home.style="display:none";
+  var nav= document.getElementById('navContainer')
+  nav.style="display:flex";
+
+  var main = document.getElementById('main')
+  main.style="display:flex";
+  renderSection(page, section,query,ids);
+
+}
 function renderSection(page, section,query,ids) {
+  seleccionadoNav(section);
   sec=section;
   if (!section) {
     section = "character";
@@ -55,7 +87,6 @@ function renderHabitantes(id, section) {
 
           break;
         case "episode":
-          console.log(data);
           data.characters.forEach((characters) => {
             crearImgHabitante(characters, id, section);
           });
