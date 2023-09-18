@@ -68,31 +68,6 @@ function crearCardCompare(){
             document.getElementById('main').appendChild(card);               
         }
 }
-function agregarCharacter(character){
-    if(personajes.length<3){
-
-        personajes.push(character)
-        var card = document.getElementById(`char${character.id}`);
-        card.onclick = () => eliminarCharacter(character);
-        card.style= "box-shadow: 5px 5px 25px 5px red !important";
-        actualizarCompareGadget(character)
-    }else{
-        console.log("No se puede agregar mas personajes");
-    }
-
-}
-function eliminarCharacter(character){
-    for(var i=0;i<personajes.length;i++){
-        if(character.id==personajes[i].id){
-            personajes.splice(i,1)
-        }
-    }
-    var card = document.getElementById(`char${character.id}`);
-    card.style= "";
-    card.onclick = () => agregarCharacter(character);
-    actualizarCompareGadget();
-
-}
 function actualizarCompareGadget(){
     var compareGadget = document.getElementById('compareGadget');
     compareGadget.innerHTML=""

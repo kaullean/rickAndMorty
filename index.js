@@ -47,31 +47,37 @@ function renderSection(page, section,query,ids) {
   }
   url = `https://rickandmortyapi.com/api/${section}?page=${page}${query}`;
 
-  
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
       borrarMain();
-      switch (section) {
-        case "character":
-          data.results.forEach((dato) => {
-            crearCardPersonaje(dato);
-          });
-          cargarPaginacion(page, data.info.pages, section,query);
-          break;
-        case "location":
-          data.results.forEach((dato) => {
-            crearCardLocation(dato);
-          });
-          cargarPaginacion(page, data.info.pages, section,query);
-          break;
-        case "episode":
-          data.results.forEach((dato) => {
-            crearCardEpisode(dato);
-          });
-          cargarPaginacion(page, data.info.pages, section,query);
-          break;
-      }
+      
+        if(!data.error){
+          switch (section) {
+            case "character":
+              data.results.forEach((dato) => {
+                crearCardPersonaje(dato);
+              });
+              cargarPaginacion(page, data.info.pages, section,query);
+              break;
+            case "location":
+              data.results.forEach((dato) => {
+                crearCardLocation(dato);
+              });
+              cargarPaginacion(page, data.info.pages, section,query);
+              break;
+            case "episode":
+              data.results.forEach((dato) => {
+                crearCardEpisode(dato);
+              });
+              cargarPaginacion(page, data.info.pages, section,query);
+              break;
+          }
+        }   
+        else{
+          borrarMain();
+          console.log("error");
+        }   
     });
 }
 function renderHabitantes(id, section) {
@@ -200,31 +206,36 @@ function searchCharacter(query){
   else{
     query="&name="+query
   }
+  query=query+"name="+input;
   if(input == "alive"){
-    query=query+"status="+input
-    renderSection(1,sec,query);
+    query="&status="+input
   }
   if(input == "dead"){
-    query=query+"status="+input
-    renderSection(1,sec,query);
+    query="&status="+input
   }
   if(input == "unknown"){
-    query=query+"status="+input
-    renderSection(1,sec,query);
+    query="&status="+input
   }
   if(input == "male"){
-    query=query+"gender="+input
-    renderSection(1,sec,query);
+    query="&gender="+input
   }
   if(input == "female"){
-    query=query+"gender="+input
-    renderSection(1,sec,query);
+    query="&gender="+input
   }
   if(input == "genderless"){
-    query=query+"gender="+input
-    renderSection(1,sec,query);
+    query="&gender="+input
   }
-  query=query+"name="+input;
+  
   renderSection(1,sec,query);
 }
 renderSection(1,'character');
+function mostrarToast() {
+  var toast = document.getElementById("mitoast");
+  toast.className = "mostrar";
+  setTimeout(function(){ toast.className = toast.className.replace("mostrar", ""); }, 2500);
+}
+function cerrarToast() {
+  var toast = document.getElementById("mitoast");
+  toast.className = "cerrar";
+  toast.className = toast.className.replace("cerrar", "");
+}

@@ -1,4 +1,5 @@
 function crearCardEpisode(episode){
+
     var card = document.createElement('div');
     card.className="card cardEpisode m-3"
     card.style="width: 18rem"

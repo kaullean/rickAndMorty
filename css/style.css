@@ -136,7 +136,7 @@ nav{
 .foto1 {
   position: absolute;
   width: 31.25rem;
-  left: 200px;
+  left: 5vw;
   bottom: 0;
   filter: drop-shadow(5px 5px 2px black);
 }
@@ -251,4 +251,34 @@ a {
 .logo1:hover {
   filter: drop-shadow(5px 5px 2px #d6e54f) !important;
 }
+#mitoast {
+  padding: 15px;
+  visibility: hidden;
+  position: fixed;
+  z-index: 1;
+  font-size: 1em;
+  bottom: 5%;
+  right: 5%;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: .25rem;
+  
+  box-shadow: 2px 2px 25px 2px #6e6f7c !important;
+  max-width: 310px;
+  width: 100%;
+  color: #97FB9B;
+  background-color: #0a243c;
+  opacity: 1;
+}
+#mitoast.mostrar {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 4.8;
+  animation: fadein 0.5s, fadeout 0.5s 4.8s;
+}
+#mitoast.cerrar {
+  /* visibility: visible; */
+  -webkit-animation: fadeout 0.5s 4.8s;
+  animation: fadeout 0.5s 4.8s;
+}
+
+ 
 
